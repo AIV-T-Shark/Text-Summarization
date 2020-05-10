@@ -3,8 +3,24 @@
 
 from nltk.corpus import stopwords
 from nltk.cluster.util import cosine_distance
+import sys, getopt
 import numpy as np
 import networkx as nx
+
+def main(argv):
+    inputfile = ''
+    try:
+        opts, args = getopt.getopt(argv,"i:",["ifile="])
+    except getopt.GetoptError:
+        print('test.py -i <inputfile>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print('app.py -i <inputfile>')
+            sys.exit()
+        elif opt in ("-i", "--ifile"):
+            inputfile = arg
+    generate_summary(inputfile, 2)
  
 def read_article(file_name):
     file = open(file_name, "r")
@@ -83,4 +99,5 @@ def generate_summary(file_name, top_n=5):
     print("Summarize Text: \n", ". ".join(summarize_text))
 
 # let's begin
-generate_summary( "msft.txt", 2)
+
+main(sys.argv[1:])
